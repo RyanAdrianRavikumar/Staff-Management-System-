@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="21266b5a-50cf-46b6-bb28-db635aed771c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Peformance" uuid="112ff15d-f2b4-4a93-9af9-ccb670a5130a">
+		<queryString language="SQL">
+			<![CDATA[SELECT  
+    s.staff_id,
+    CONCAT(s.first_name, ' ', s.last_name) AS staff_name,
+    COUNT(DISTINCT a.date) AS days_present,
+    SUM(GREATEST(TIMESTAMPDIFF(HOUR, a.checkin_time, a.checkout_time) - 8, 0)) AS total_ot_hours,
+    COUNT(t.task_id) AS total_tasks_assigned,
+    SUM(CASE WHEN t.task_status = 'Completed' THEN 1 ELSE 0 END) AS tasks_completed
+FROM 
+    staff s
+LEFT JOIN 
+    attendance a ON s.staff_id = a.staff_id
+LEFT JOIN 
+    assignedTasks t ON s.staff_id = t.staff_id
+GROUP BY 
+    s.staff_id, s.first_name, s.last_name;
+]]>
+		</queryString>
+		<field name="staff_id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="staff_name" class="java.lang.String"/>
+		<field name="days_present" class="java.lang.Long"/>
+		<field name="total_ot_hours" class="java.math.BigDecimal"/>
+		<field name="total_tasks_assigned" class="java.lang.Long"/>
+		<field name="tasks_completed" class="java.math.BigDecimal"/>
+		<group name="staff_id">
+			<groupExpression><![CDATA[$F{staff_id}]]></groupExpression>
+		</group>
+		<group name="staff_name">
+			<groupExpression><![CDATA[$F{staff_name}]]></groupExpression>
+		</group>
+	</subDataset>
+	<queryString language="SQL">
+		<![CDATA[SELECT  
+    s.staff_id,
+    CONCAT(s.first_name, ' ', s.last_name) AS staff_name,
+    COUNT(DISTINCT a.date) AS days_present,
+    SUM(GREATEST(TIMESTAMPDIFF(HOUR, a.checkin_time, a.checkout_time) - 8, 0)) AS total_ot_hours,
+    COUNT(t.task_id) AS total_tasks_assigned,
+    SUM(CASE WHEN t.task_status = 'Completed' THEN 1 ELSE 0 END) AS tasks_completed
+FROM 
+    staff s
+LEFT JOIN 
+    attendance a ON s.staff_id = a.staff_id
+LEFT JOIN 
+    assignedTasks t ON s.staff_id = t.staff_id
+GROUP BY 
+    s.staff_id, s.first_name, s.last_name;]]>
+	</queryString>
+	<field name="staff_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="staff_name" class="java.lang.String"/>
+	<field name="days_present" class="java.lang.Long"/>
+	<field name="total_ot_hours" class="java.math.BigDecimal"/>
+	<field name="total_tasks_assigned" class="java.lang.Long"/>
+	<field name="tasks_completed" class="java.math.BigDecimal"/>
+	<group name="staff_id">
+		<groupExpression><![CDATA[$F{staff_id}]]></groupExpression>
+	</group>
+	<group name="staff_name">
+		<groupExpression><![CDATA[$F{staff_name}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="22" width="555" height="33" uuid="c9df08d7-95d4-497d-aa84-9a73fb286a95"/>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Overall Staff Performance Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="160" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="0" y="0" width="555" height="140" uuid="c154d640-5688-4a2c-887a-72db2341ab2f"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Peformance" uuid="0e73c217-9ac2-4cf8-b7c1-9e57ffeab673">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="81" uuid="11fd51e3-3405-4ad8-b19a-58ad944ae988">
+						<jr:tableHeader style="table 1_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table 1_TH" height="35" rowSpan="1"/>
+						<jr:columnHeader style="table 1_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="81" height="30" uuid="b2ff25dd-2391-48f4-931b-3d7924509855"/>
+								<textElement textAlignment="Center">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Staff ID]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 1_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="81" height="20" uuid="cb6517ce-6304-43c6-ac98-096628ad00bc"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{staff_id}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="2a438bc6-6a75-45ad-8cab-aa2e5a9dd620">
+						<jr:tableHeader style="table 1_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table 1_TH" height="35" rowSpan="1"/>
+						<jr:columnHeader style="table 1_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="84fbe45b-aa7a-4544-8853-6094841834af"/>
+								<textElement textAlignment="Center">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Staff Name]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 1_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="2f4e55c8-1737-4b0a-a98b-575245a278da"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{staff_name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="3e9bc941-2cad-4498-9b21-236fc61891fe">
+						<jr:tableHeader style="table 1_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table 1_TH" height="35" rowSpan="1"/>
+						<jr:columnHeader style="table 1_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="6aa4f2b2-694d-4b93-83e6-3be2f14e087a"/>
+								<textElement textAlignment="Center">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Days Present]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 1_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="93b98612-d618-4570-a1f2-04588baac4ea"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{days_present}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="102" uuid="f9e6f097-4e5e-43df-8d2e-1d1873e59f18">
+						<jr:tableHeader style="table 1_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table 1_TH" height="35" rowSpan="1"/>
+						<jr:columnHeader style="table 1_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="102" height="50" uuid="d37529a3-b128-425c-afcd-983ab2e747b6"/>
+								<textElement textAlignment="Center">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total Overtime Hours]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 1_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="112aca44-7177-4c93-b05f-029173a6062c"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{total_ot_hours}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="115" uuid="5c3a2f5a-b527-470d-b938-8b633ec78d2f">
+						<jr:tableHeader style="table 1_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table 1_TH" height="35" rowSpan="1"/>
+						<jr:columnHeader style="table 1_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="115" height="50" uuid="c4253f48-1f88-40fe-a9d5-aa4243c2e32d"/>
+								<textElement textAlignment="Center">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total Tasks Assigned]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 1_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="368c4265-21fd-4f92-a98c-cf04ec4d1198"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{total_tasks_assigned}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="91" uuid="f4025ce3-daea-48ee-b650-7cc85fdd3f8c">
+						<jr:tableHeader style="table 1_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table 1_TH" height="35" rowSpan="1"/>
+						<jr:columnHeader style="table 1_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="50" uuid="3e3f50cc-a0eb-4779-aba2-5a198e057d3a"/>
+								<textElement textAlignment="Center">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tasks Completed]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 1_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="6e56126c-3fc8-40b8-a47f-4ca903b578f3"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{tasks_completed}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="155" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
