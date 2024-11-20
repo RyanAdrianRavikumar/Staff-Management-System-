@@ -34,7 +34,7 @@ public class StaffAttendance extends javax.swing.JFrame {
         AttendanceTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         btnShowTable = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -73,16 +73,16 @@ public class StaffAttendance extends javax.swing.JFrame {
         });
         getContentPane().add(btnShowTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 39, 157, 37));
 
-        jButton2.setBackground(new java.awt.Color(0, 102, 255));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("<- Back");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnBack.setBackground(new java.awt.Color(0, 102, 255));
+        btnBack.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnBack.setForeground(new java.awt.Color(255, 255, 255));
+        btnBack.setText("<- Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnBackActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/staffmanagementsystem/88246.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -93,30 +93,29 @@ public class StaffAttendance extends javax.swing.JFrame {
 
     private void btnShowTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowTableActionPerformed
 try {
-            // Database connection
+            //Establish connection to database
             String Path = "jdbc:mysql://localhost/staffmanagementsystem";
             Connection con = DriverManager.getConnection(Path, "root", "Zxcv@7890");
 
-            // SQL query to join staff and attendance tables and calculate overtime
-            String query = "SELECT a.attendance_id, s.first_name, s.last_name, a.checkin_time, a.checkout_time, "
+            //Query to join staff and attendance tables and calculate overtime hours
+            String sql = "SELECT a.attendance_id, s.first_name, s.last_name, a.checkin_time, a.checkout_time, "
                          + "TIMESTAMPDIFF(HOUR, a.checkin_time, a.checkout_time) AS total_hours_worked, "
                          + "GREATEST(0, TIMESTAMPDIFF(HOUR, a.checkin_time, a.checkout_time) - 8) AS overtime_hours, "
                          + "a.date "
                          + "FROM attendance a "
                          + "JOIN staff s ON a.staff_id = s.staff_id";
 
-            PreparedStatement pst = con.prepareStatement(query);
+            PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
 
-            // Set up the table model to display the data
+            //Set up the table model to display the data
             DefaultTableModel model = (DefaultTableModel) AttendanceTable.getModel();
             model.setColumnIdentifiers(new Object[]{"Attendance ID", "Staff Name", "Checkin Time", "Checkout Time", 
                                                      "Total Hours Worked", "Overtime Hours", "Date"});
-            model.setRowCount(0); // Clear the table before adding new data
+            model.setRowCount(0); 
 
-            // Loop through the result set and populate the table
+            
             while (rs.next()) {
-                // Retrieve data from the result set
                 String attendanceId = String.valueOf(rs.getInt("attendance_id"));
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
@@ -147,16 +146,15 @@ try {
             JOptionPane.showMessageDialog(null, "Database Error: " + ex1.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());
-            ex.printStackTrace();
         }
     
     }//GEN-LAST:event_btnShowTableActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         AdminDashboard ad = new AdminDashboard();
         ad.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -195,9 +193,9 @@ try {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable AttendanceTable;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnShowTable;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

@@ -199,16 +199,16 @@ public class UpdateAssignedTasks extends javax.swing.JFrame {
 
     private void TaskTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TaskTableMouseClicked
         try {
-        // Get the selected row
+        //Get the selected row
         int selectedRow = TaskTable.getSelectedRow();
 
-        // Retrieve values from the selected row
-        String taskID = TaskTable.getValueAt(selectedRow, 0).toString(); // Assuming Task ID is in column 0
-        String taskStatus = TaskTable.getValueAt(selectedRow, 3).toString(); // Assuming Task Status is in column 3
+        //Retrieve values from the selected row
+        String taskID = TaskTable.getValueAt(selectedRow, 0).toString();
+        String taskStatus = TaskTable.getValueAt(selectedRow, 3).toString();
 
-        // Display values in text field and combo box
-        txtTaskID.setText(taskID); // Set Task ID in text field
-        ComboBoxTaskStatus.setSelectedItem(taskStatus); // Set Task Status in combo box
+        //Get values to the text field and combo box
+        txtTaskID.setText(taskID);
+        ComboBoxTaskStatus.setSelectedItem(taskStatus);
     } catch (Exception ex) {
         JOptionPane.showMessageDialog(this, "Error selecting row: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
@@ -224,7 +224,7 @@ public class UpdateAssignedTasks extends javax.swing.JFrame {
         String taskID = txtTaskID.getText();
         String taskStatus = ComboBoxTaskStatus.getSelectedItem().toString();
 
-        // Validate input
+        //Validation
         if (taskID.isEmpty() || taskStatus.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a task and status!", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -245,11 +245,11 @@ public class UpdateAssignedTasks extends javax.swing.JFrame {
         //Close connection
         con.close();
 
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Database Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Unexpected Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Database Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Unexpected Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
