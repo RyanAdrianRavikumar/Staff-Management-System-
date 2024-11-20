@@ -3,15 +3,10 @@ package staffmanagementsystem;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
-/**
- *
- * @author Lenovo
- */
+
 public class StaffLeaveRequestForm extends javax.swing.JFrame {
 
-    /**
-     * Creates new form StaffLeaveRequestForm
-     */
+    
     public StaffLeaveRequestForm() {
         initComponents();
     }
@@ -156,10 +151,10 @@ public class StaffLeaveRequestForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLeaveRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeaveRequestActionPerformed
-          String staffId = staffIdField.getText().trim();
+        String staffId = staffIdField.getText().trim();
         String reason = reasonField.getText().trim();
 
-        // Validate input
+        //Validation 
         if (staffId.isEmpty() || reason.isEmpty()) {
             JOptionPane.showMessageDialog(this, "All fields are required!", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -170,26 +165,24 @@ public class StaffLeaveRequestForm extends javax.swing.JFrame {
             return;
         }
 
-        // Format the selected dates
+        //Format dates 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String submissionDate = sdf.format(submissionDatePicker.getDate());
         String startDate = sdf.format(startDatePicker.getDate());
         String endDate = sdf.format(endDatePicker.getDate());
 
         try {
-            // Database connection
+            //Establish connection with database
             String url = "jdbc:mysql://localhost/staffmanagementsystem";
             Connection con = DriverManager.getConnection(url, "root", "Zxcv@7890");
 
-            // SQL Insert Query
-            String query = "INSERT INTO LeaveRequests (staff_ID, date_submitted, leave_start_date, leave_end_date, leave_reason, leave_status) " +
-                           "VALUES (?, ?, ?, ?, ?, 'Pending')";
-            PreparedStatement pst = con.prepareStatement(query);
-            pst.setInt(1, Integer.parseInt(staffId)); // Staff ID
-            pst.setString(2, submissionDate); // Submission Date
-            pst.setString(3, startDate); // Start Date
-            pst.setString(4, endDate); // End Date
-            pst.setString(5, reason); // Reason
+            //Query to insert data
+            PreparedStatement pst = con.prepareStatement("INSERT INTO LeaveRequests (staff_ID, date_submitted, leave_start_date, leave_end_date, leave_reason, leave_status) VALUES (?, ?, ?, ?, ?, 'Pending')");
+            pst.setInt(1, Integer.parseInt(staffId)); 
+            pst.setString(2, submissionDate); 
+            pst.setString(3, startDate); 
+            pst.setString(4, endDate); 
+            pst.setString(5, reason); 
 
             // Execute query
             int result = pst.executeUpdate();
@@ -199,11 +192,10 @@ public class StaffLeaveRequestForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Failed to submit leave request.", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
-            // Close connection
-            pst.close();
+            //Close connection          
             con.close();
+            
         } catch (SQLException ex) {
-            ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Database Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Staff ID must be a number.", "Validation Error", JOptionPane.ERROR_MESSAGE);

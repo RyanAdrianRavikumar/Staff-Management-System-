@@ -39,11 +39,11 @@ public class UpdateAssignedTasks extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtTaskID = new javax.swing.JTextField();
         ComboBoxTaskStatus = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TaskTable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btnShowTable = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -62,13 +62,13 @@ public class UpdateAssignedTasks extends javax.swing.JFrame {
 
         ComboBoxTaskStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pending", "In Progress", "Completed" }));
 
-        jButton2.setBackground(new java.awt.Color(51, 153, 0));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Update Task Status!");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdate.setBackground(new java.awt.Color(51, 153, 0));
+        btnUpdate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
+        btnUpdate.setText("Update Task Status!");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnUpdateActionPerformed(evt);
             }
         });
 
@@ -90,7 +90,7 @@ public class UpdateAssignedTasks extends javax.swing.JFrame {
                             .addComponent(jLabel1))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(ComboBoxTaskStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtTaskID))))
                 .addContainerGap(29, Short.MAX_VALUE))
@@ -109,7 +109,7 @@ public class UpdateAssignedTasks extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(ComboBoxTaskStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(btnUpdate)
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
@@ -135,16 +135,16 @@ public class UpdateAssignedTasks extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(452, 115, -1, 376));
 
-        jButton1.setBackground(new java.awt.Color(255, 153, 0));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Show Table");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnShowTable.setBackground(new java.awt.Color(255, 153, 0));
+        btnShowTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnShowTable.setForeground(new java.awt.Color(255, 255, 255));
+        btnShowTable.setText("Show Table");
+        btnShowTable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnShowTableActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(452, 70, -1, -1));
+        getContentPane().add(btnShowTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(452, 70, -1, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/staffmanagementsystem/88246.jpg"))); // NOI18N
         jLabel4.setText("jLabel4");
@@ -153,7 +153,7 @@ public class UpdateAssignedTasks extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnShowTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowTableActionPerformed
        try {
             //Establish Connection to Database
             String Path = "jdbc:mysql://localhost/staffmanagementsystem";
@@ -195,7 +195,7 @@ public class UpdateAssignedTasks extends javax.swing.JFrame {
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnShowTableActionPerformed
 
     private void TaskTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TaskTableMouseClicked
         try {
@@ -214,11 +214,11 @@ public class UpdateAssignedTasks extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_TaskTableMouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         try {
-        // Database connection
+        //Establish connection to database
         String dbUrl = "jdbc:mysql://localhost/staffmanagementsystem";
-        Connection connection = DriverManager.getConnection(dbUrl, "root", "Zxcv@7890");
+        Connection con = DriverManager.getConnection(dbUrl, "root", "Zxcv@7890");
 
         // Get values from text field and combo box
         String taskID = txtTaskID.getText();
@@ -230,34 +230,27 @@ public class UpdateAssignedTasks extends javax.swing.JFrame {
             return;
         }
 
-        // SQL query to update task status
-        String updateQuery = "UPDATE assignedTasks SET task_status = ? WHERE task_id = ?";
+        //SQL query to update task status 
+        PreparedStatement pst = con.prepareStatement("UPDATE assignedTasks SET task_status = ? WHERE task_id = ?");
+        pst.setString(1, taskStatus);
+        pst.setInt(2, Integer.parseInt(taskID)); // Convert Task ID to integer
 
-        // Prepare the statement
-        PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
-        preparedStatement.setString(1, taskStatus);
-        preparedStatement.setInt(2, Integer.parseInt(taskID)); // Convert Task ID to integer
+        //Execute the query
+        int result = pst.executeUpdate();
 
-        // Execute the update
-        int rowsAffected = preparedStatement.executeUpdate();
+        
+        JOptionPane.showMessageDialog(this, "Record affected: " + result, "Success", JOptionPane.INFORMATION_MESSAGE);
+        
 
-        if (rowsAffected > 0) {
-            JOptionPane.showMessageDialog(this, "Task status updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Failed to update task status. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        //Close connection
+        con.close();
 
-        // Close the connection
-        connection.close();
-
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(this, "Invalid Task ID. Please select a valid task.", "Input Error", JOptionPane.ERROR_MESSAGE);
     } catch (SQLException ex) {
         JOptionPane.showMessageDialog(this, "Database Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     } catch (Exception ex) {
         JOptionPane.showMessageDialog(this, "Unexpected Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -297,8 +290,8 @@ public class UpdateAssignedTasks extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboBoxTaskStatus;
     private javax.swing.JTable TaskTable;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnShowTable;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

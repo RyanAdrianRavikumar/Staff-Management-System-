@@ -133,10 +133,10 @@ public class LoginForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String username = usernameField.getText().trim();  // Trim to remove white spaces
-String password = new String(passwordField.getPassword()).trim();  // Trim to remove white spaces
+        String username = usernameField.getText().trim();  
+String password = new String(passwordField.getPassword()).trim();  
 String jobPosition = (String) jobPositionComboBox.getSelectedItem();
-jobPosition = jobPosition != null ? jobPosition.trim().toLowerCase() : "";  // Trim and convert to lowercase
+jobPosition = jobPosition != null ? jobPosition.trim().toLowerCase() : "";  
 
 // Verify jobPositionComboBox output value
 System.out.println("Job Position from ComboBox: '" + jobPosition + "'");
@@ -174,26 +174,22 @@ try {
 
         // Redirect based on job position using if-else
         if (jobPosition.equals("administrator")) {
+            //Load Administrator Dashboard
             AdminDashboard ad = new AdminDashboard();
             ad.setVisible(true);
             this.setVisible(false);
-        } else if (jobPosition.equals("manager")) {
-            JOptionPane.showMessageDialog(null, "Unknown job position!", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (jobPosition.equals("staff")) {
-          StaffDashboard sd = new StaffDashboard();
+            //Load staffDashboard
+            StaffDashboard sd = new StaffDashboard();
             sd.setVisible(true);
             this.setVisible(false);
-            
         }
     } else {
         JOptionPane.showMessageDialog(null, "Invalid credentials. Please try again.", "Login Failed", JOptionPane.ERROR_MESSAGE);
     }
 
-    rs.close();
-    pst.close();
     con.close();
 } catch (SQLException ex1) {
-    ex1.printStackTrace();
     JOptionPane.showMessageDialog(null, "Database Error: " + ex1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 }
 

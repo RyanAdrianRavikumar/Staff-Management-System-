@@ -2,21 +2,10 @@ package staffmanagementsystem;
 import javax.swing.JOptionPane;
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-
-/**
- *
- * @author Lenovo
- */
 
 public class StaffLeaveRequest extends javax.swing.JFrame {
 
-    /**
-     * Creates new form StaffLeaveRequest
-     */
+    
     public StaffLeaveRequest() {
         initComponents();
     }
@@ -166,12 +155,12 @@ public class StaffLeaveRequest extends javax.swing.JFrame {
     public class ShowTable{
         public void displayTable(){
             try {
-            // Database connection
-            String dbUrl = "jdbc:mysql://localhost/staffmanagementsystem";
-            Connection connection = DriverManager.getConnection(dbUrl, "root", "Zxcv@7890");
+            //Establish connection with database
+            String Path = "jdbc:mysql://localhost/staffmanagementsystem";
+            Connection con = DriverManager.getConnection(Path, "root", "Zxcv@7890");
 
-            // SQL query
-            String query = "SELECT " +
+            //Prepare query statement 
+            PreparedStatement pst = con.prepareStatement("SELECT " +
                     "l.leave_request_ID, " +
                     "CONCAT(s.first_name, ' ', s.last_name) AS staff_name, " +
                     "l.date_submitted, " +
@@ -180,13 +169,10 @@ public class StaffLeaveRequest extends javax.swing.JFrame {
                     "l.leave_reason, " +
                     "l.leave_status " +
                     "FROM LeaveRequests l " +
-                    "JOIN staff s ON l.staff_ID = s.staff_id";
+                    "JOIN staff s ON l.staff_ID = s.staff_id");
+            ResultSet resultSet = pst.executeQuery();
 
-            // Execute the query
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
-
-            // Set up the table model
+            //Set up the table model
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("Leave Request ID");
             model.addColumn("Staff Name");
@@ -196,7 +182,7 @@ public class StaffLeaveRequest extends javax.swing.JFrame {
             model.addColumn("Leave Reason");
             model.addColumn("Leave Status");
 
-            // Populate the table with data
+            //Add data to the table with data
             while (resultSet.next()) {
                 String leaveRequestID = String.valueOf(resultSet.getInt("leave_request_ID"));
                 String staffName = resultSet.getString("staff_name");
@@ -213,9 +199,7 @@ public class StaffLeaveRequest extends javax.swing.JFrame {
             leaveRequestsTable.setModel(model);
 
             // Close connections
-            resultSet.close();
-            statement.close();
-            connection.close();
+            con.close();
 
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Database Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -225,12 +209,12 @@ public class StaffLeaveRequest extends javax.swing.JFrame {
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            // Database connection
-            String dbUrl = "jdbc:mysql://localhost/staffmanagementsystem";
-            Connection connection = DriverManager.getConnection(dbUrl, "root", "Zxcv@7890");
+            //Establish connection to database
+            String Path = "jdbc:mysql://localhost/staffmanagementsystem";
+            Connection con = DriverManager.getConnection(Path, "root", "Zxcv@7890");
 
-            // SQL query
-            String query = "SELECT " +
+            //Prepare query statement
+            PreparedStatement pst = con.prepareStatement("SELECT " +
                     "l.leave_request_ID, " +
                     "CONCAT(s.first_name, ' ', s.last_name) AS staff_name, " +
                     "l.date_submitted, " +
@@ -239,11 +223,8 @@ public class StaffLeaveRequest extends javax.swing.JFrame {
                     "l.leave_reason, " +
                     "l.leave_status " +
                     "FROM LeaveRequests l " +
-                    "JOIN staff s ON l.staff_ID = s.staff_id";
-
-            // Execute the query
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
+                    "JOIN staff s ON l.staff_ID = s.staff_id");
+            ResultSet resultSet = pst.executeQuery();
 
             // Set up the table model
             DefaultTableModel model = new DefaultTableModel();
@@ -272,9 +253,7 @@ public class StaffLeaveRequest extends javax.swing.JFrame {
             leaveRequestsTable.setModel(model);
 
             // Close connections
-            resultSet.close();
-            statement.close();
-            connection.close();
+            con.close();
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Database Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

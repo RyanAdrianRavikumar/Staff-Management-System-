@@ -139,6 +139,53 @@ public class ViewAssignedTasks extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    class ShowTable{
+        public void displayTableData(){
+            try {
+                
+               //Establish Connection to Database
+            String Path = "jdbc:mysql://localhost/staffmanagementsystem";
+            Connection con = DriverManager.getConnection(Path, "root", "Zxcv@7890");
+
+            //Prepare query to get AssignedTasks table data with staff names
+            PreparedStatement pst = con.prepareStatement(
+                "SELECT t.task_id, CONCAT(s.first_name, ' ', s.last_name) AS staff_name, " +
+                "t.task_description, t.task_status " +
+                "FROM AssignedTasks t " +
+                "JOIN staff s ON t.staff_id = s.staff_id"
+            );
+            
+            ResultSet rs = pst.executeQuery();
+
+            //Manage the table using the table model
+            DefaultTableModel model = (DefaultTableModel) TaskTable.getModel();
+            model.setRowCount(0); // Clear existing rows
+
+            while (rs.next()) {
+                //Get row data from the result set
+                String taskId = String.valueOf(rs.getInt("task_id"));
+                String staffName = rs.getString("staff_name");
+                String taskDescription = rs.getString("task_description");
+                String taskStatus = rs.getString("task_status");
+
+                // Store table row as a string array
+                String[] row = {taskId, staffName, taskDescription, taskStatus};
+
+                // Add the table row into the table
+                model.addRow(row);
+            }
+
+            //Close connection
+            con.close();
+
+                
+                } catch (SQLException ex1) {
+                    JOptionPane.showMessageDialog(null, "Database Error: " + ex1.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                } catch (Exception ex) {
+                    System.out.println("Error: " + ex.getMessage());
+                }
+        }
+    }
     private void btnShowTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowTableActionPerformed
          try {
             //Establish Connection to Database
@@ -217,13 +264,14 @@ public class ViewAssignedTasks extends javax.swing.JFrame {
             pst.setString(3, "Pending"); 
 
             // Execute the update
-            int rowsAffected = pst.executeUpdate();
-
-            if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(this, "Task added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Failed to add the task. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            int result = pst.executeUpdate();
+            
+            //Refresh table data after update
+            ShowTable st = new ShowTable();
+            st.displayTableData();
+            
+            JOptionPane.showMessageDialog(this, "Number of Records Added: " + result, "Success", JOptionPane.INFORMATION_MESSAGE);
+           
 
             con.close();
 

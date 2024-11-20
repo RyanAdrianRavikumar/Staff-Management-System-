@@ -54,8 +54,6 @@ public class StaffDetails extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
 
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/88246.jpg"))); // NOI18N
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Staff Details - Staff Management System");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
